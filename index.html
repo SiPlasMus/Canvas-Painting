@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Canvas Practice Lessons</title>
+	<link rel="stylesheet" href="style.css">
+    <link href="./pointer.css" rel="stylesheet">
+</head>
+<body>
+	<section>
+		<div class="buttonBox">
+			<button type="button" id="grey" style="--bg:#ccc"></button>
+			<button type="button" id="black" style="--bg:#000"></button>
+			<button type="button" id="white" style="--bg:#fff"></button>
+			<button type="button" id="red" style="--bg:#f00"></button>
+			<button type="button" id="green" style="--bg:#0f0"></button>
+			<button type="button" id="blue" style="--bg:#00f"></button>
+			<button type="button" id="yellow" style="--bg:#ff0"></button>
+			<button type="button" id="pink" style="--bg:#f0f"></button>
+			<button type="button" id="cyan" style="--bg:#0ff"></button>
+			<button type="button" class="speed">
+				<img src="img/slow.png" alt="">
+			</button>
+			<button type="button" class="speed">
+				<img src="img/fast.jpg" alt="">
+			</button>
+			<input type="color" value="#cccccc" id="color">
+		</div>
+		<canvas id="canvas">Your browser is not supported. You mad bro(</canvas>
+		
+	</section>
+
+	<script src="script.js"></script>
+    <script src="pointer.js"></script>
+    <script>
+    	init_pointer({
+		  pointerColor: "#555",
+		  ringSize: 15,
+		  ringClickSize: 10
+		})
+    </script>
+
+</body>
+</html>
