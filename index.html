@@ -10,22 +10,45 @@
 <body>
 	<section>
 		<div class="buttonBox">
-			<button type="button" id="grey" style="--bg:#ccc"></button>
-			<button type="button" id="black" style="--bg:#000"></button>
-			<button type="button" id="white" style="--bg:#fff"></button>
-			<button type="button" id="red" style="--bg:#f00"></button>
-			<button type="button" id="green" style="--bg:#0f0"></button>
-			<button type="button" id="blue" style="--bg:#00f"></button>
-			<button type="button" id="yellow" style="--bg:#ff0"></button>
-			<button type="button" id="pink" style="--bg:#f0f"></button>
-			<button type="button" id="cyan" style="--bg:#0ff"></button>
+			<button type="button" id="eraser" style="--bg:#ccc"></button>
+			<button type="button" id="choice" style="--bg:#000"></button>
+			<div id="choose">
+				<div class="box">
+					<button type="button" id="black" style="--bg:black"></button>
+					<button type="button" id="white" style="--bg:white"></button>
+					<button type="button" id="red" style="--bg:red"></button>
+					<button type="button" id="green" style="--bg:green"></button>
+					<button type="button" id="blue" style="--bg:blue"></button>
+				</div>
+				<div class="box">
+					<button type="button" id="yellow" style="--bg:yellow"></button>
+					<button type="button" id="pink" style="--bg:pink"></button>
+					<button type="button" id="cyan" style="--bg:cyan"></button>
+					<button type="button" id="magenta" style="--bg:magenta"></button>
+					<button type="button" id="orangeRed" style="--bg:orangeRed"></button>
+				</div>
+				<div class="box">
+					<button type="button" id="darkSlateGray" style="--bg:darkSlateGray"></button>
+					<button type="button" id="indigo" style="--bg:indigo"></button>
+					<button type="button" id="lime" style="--bg:lime"></button>
+					<button type="button" id="springGreen" style="--bg:springGreen"></button>
+					<button type="button" id="maroon" style="--bg:maroon"></button>
+				</div>
+				
+			</div>
 			<button type="button" class="speed">
 				<img src="img/slow.png" alt="">
 			</button>
+			<label for="speed" id="velocity">70</label>
 			<button type="button" class="speed">
-				<img src="img/fast.jpg" alt="">
+				<img src="img/slow.png" alt="" style="transform: rotateY(180deg);">
 			</button>
-			<input type="color" value="#cccccc" id="color">
+			<input type="color" value="#000000" id="color">
+			<input type="color" value="#cccccc" id="bgcolor">
+			<label for="file">Image</label>
+			<input type="range" value="20" id="range" min="1" max="30">
+			<label for="range" id="Range">20</label>
+			<input type="file" accept="image/*" id="file">
 		</div>
 		<canvas id="canvas">Your browser is not supported. You mad bro(</canvas>
 		

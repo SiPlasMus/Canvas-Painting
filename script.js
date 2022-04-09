@@ -3,7 +3,15 @@ var
 	ctx = canvas.getContext('2d'),
 	btn = document.querySelectorAll('button'),
 	vel = document.querySelectorAll('.speed'),
-	input = document.getElementById('color'),
+	velocity = document.getElementById('velocity'),
+	choice = document.getElementById('choice'),
+	choose = document.getElementById('choose'),
+	chooseBTN = choose.querySelectorAll('button'),
+	bgColor = document.getElementById('bgcolor'),
+	lColor = document.getElementById('color'),
+	range = document.getElementById('Range'),
+	brushWidth = document.getElementById('range'),
+	file = document.getElementById('file'),
 	h = window.innerHeight,
 	w = window.innerWidth,
 	pi = Math.PI,
@@ -11,7 +19,8 @@ var
 	grad = ctx.createLinearGradient(w/2 - 250, h/2, w/2 + 250, h/2),
 	isMouseDown = false,
 	coords = [],
-	color,
+	color = "#000",
+	cwidth = 10,
 	speed = 30;
 
 canvas.width = w;
@@ -31,12 +40,24 @@ for (var i = 0; i < btn.length - 2; i++) {
 		ctx.strokeStyle = color;
 	}, false);
 }
+for (var i = 0; i < chooseBTN.length; i++) {
+	chooseBTN[i].addEventListener('click', function (e) {
+		choose.classList.remove('active');
+		choice.style.backgroundColor = color;
+	}, false);
+}
+
+choice.addEventListener('click', function (e) {
+	choose.classList.toggle('active');
+}, false);
+
 
 vel[0].addEventListener('click', function (e) {
 	speed += 10;
 	if (speed >= 100) {
-		speed = 100;
+		speed = 99;
 	}
+	velocity.innerHTML = 100 - speed;
 }, false);
 
 vel[1].addEventListener('click', function (e) {
@@ -44,60 +65,40 @@ vel[1].addEventListener('click', function (e) {
 	if (speed <= 10) {
 		speed = 5;
 	}
+	velocity.innerHTML = 100 - speed;
 }, false);
 
-input.addEventListener('change', function (e) {
-	let bgColor = e.target.value;
-	btn[0].style.backgroundColor = bgColor;
-	canvas.style.backgroundColor = bgColor;
+bgColor.addEventListener('change', function (e) {
+	let color = e.target.value;
+	btn[0].style.backgroundColor = color;
+	canvas.style.backgroundColor = color;
 }, false);
 
+lColor.addEventListener('change', function (e) {
+	color = e.target.value;
+	ctx.fillStyle = color;
+	ctx.strokeStyle = color;
+}, false);
 
-/*
-Rectangle with animation
-ctx.fillStyle = "#0f0";
-ctx.fillRect(50, 50, 100, 100);
-#translate cub to right
-setInterval(function () {
+brushWidth.addEventListener('change', function (e) {
+	cwidth = e.target.value;
+	range.innerHTML = e.target.value;
+}, false);
 
-	ctx.fillStyle = "#fff";
-	ctx.fillRect(0, 0, w, h);
+file.addEventListener('change', function (e) {
+	var file = this.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function () {
+    	canvas.style.backgroundImage = "url('" + reader.result + "')";
+    }
+    if (file) {
+        reader.readAsDataURL(file);
+    	} 
+    else {
+    	}
+    
+}, false);
 
-	ctx.fillStyle = "#0f0";
-	ctx.fillRect(x++, 50, 100, 100);
-}, 10);*/
-
-
-/* Half-Arc:
-ctx.fillStyle = "#f00";
-ctx.arc(w / 2 , h / 2, 100, 0, pi);
-ctx.fill();
-*/
-
-/*
-// Triangle with scale
-ctx.strokeStyle = "#00f";
-ctx.lineWidth = "5";
-ctx.scale(2, 2);
-ctx.beginPath();
-ctx.moveTo(80, 50);
-ctx.lineTo(50, 100);
-ctx.lineTo(110, 100);
-ctx.closePath();
-ctx.stroke();
-*/
-
-/*
-// Text in center with gradient
-grad.addColorStop('0', 'red');
-grad.addColorStop('.5', 'green');
-grad.addColorStop('1', 'blue');
-ctx.fillStyle = grad;
-ctx.font = "bold italic 6em Poppins";
-ctx.textAlign = "center";
-ctx.fillText("By Tim", w / 2, h / 2);
-
-*/
 canvas.addEventListener('mousedown', function (e) {
 	isMouseDown = true;	
 }, false);
@@ -108,8 +109,8 @@ canvas.addEventListener('mouseup', function (e) {
 	coords.push('mouseup');
 }, false);
 
-ctx.lineWidth = 10 * 2;
 canvas.addEventListener('mousemove', function (e) {
+	ctx.lineWidth = cwidth * 2;
 	if (isMouseDown) {
 		coords.push([e.clientX, e.clientY]);
 
@@ -117,7 +118,7 @@ canvas.addEventListener('mousemove', function (e) {
 		ctx.stroke();
 
 		ctx.beginPath();
-		ctx.arc(e.clientX, e.clientY, 10, 0, 2*pi);
+		ctx.arc(e.clientX, e.clientY, cwidth, 0, 2*pi);
 		ctx.fill();
 
 		ctx.beginPath();
@@ -149,7 +150,7 @@ function replay() {
 			ctx.stroke();
 
 			ctx.beginPath();
-			ctx.arc(e.clientX, e.clientY, 10, 0, 2*pi);
+			ctx.arc(e.clientX, e.clientY, cwidth, 0, 2*pi);
 			ctx.fill();
 
 			ctx.beginPath();
@@ -160,17 +161,19 @@ function replay() {
 }
 
 function clear() {
-	let bgcolor = input.value;
-	console.log(input.value);
+	let canvasStyle = getComputedStyle(canvas);
+	let bgcolor = canvasStyle.backgroundColor;
 	ctx.fillStyle = bgcolor;
 	ctx.fillRect(0, 0, w, h);
 
 	ctx.beginPath();
 	ctx.fillStyle = color;
+	ctx.strokeStyle = color;
 	if (!localStorage.getItem(coords)) {
 		coords = []		
 		return;
 			}
+
 }
 
 document.addEventListener('keydown', function (e) {
@@ -185,7 +188,7 @@ document.addEventListener('keydown', function (e) {
 		coords = JSON.parse(localStorage.getItem('coords'));
 
 		// clear();
-		replay();
+		replay();	
 	}
 
 	if (e.keyCode == 67) { // clear
